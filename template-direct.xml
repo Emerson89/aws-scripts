@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zabbix_export>
+    <version>4.4</version>
+    <date>2021-12-02T14:09:29Z</date>
+    <groups>
+        <group>
+            <name>Templates</name>
+        </group>
+    </groups>
+    <templates>
+        <template>
+            <template>Template DirectConnect AWS</template>
+            <name>Template DirectConnect AWS</name>
+            <description>DirectConnect Status interfaces e conexões</description>
+            <groups>
+                <group>
+                    <name>Templates</name>
+                </group>
+            </groups>
+            <applications>
+                <application>
+                    <name>Status Conexão</name>
+                </application>
+                <application>
+                    <name>Status Interfaces</name>
+                </application>
+            </applications>
+            <items>
+                <item>
+                    <name>ConnectionState PAYPAL_BPP_1</name>
+                    <type>EXTERNAL</type>
+                    <key>cloudwatch-zabbix.py[&quot;ConnectionState&quot;,&quot;Average&quot;,&quot;ConnectionId&quot;,&quot;{$CONEXAO_1}&quot;,&quot;AWS/DX&quot;,&quot;{$REGION}&quot;]</key>
+                    <delay>5m</delay>
+                    <applications>
+                        <application>
+                            <name>Status Conexão</name>
+                        </application>
+                    </applications>
+                    <valuemap>
+                        <name>State DirectConnect</name>
+                    </valuemap>
+                    <triggers>
+                        <trigger>
+                            <expression>{min(5m)}=0</expression>
+                            <name>Status da conexão {$CONEXAO_1}-{$CONEXAO_3}  está DOWN</name>
+                            <priority>DISASTER</priority>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <name>ConnectionState PAYPAL_BPP_2</name>
+                    <type>EXTERNAL</type>
+                    <key>cloudwatch-zabbix.py[&quot;ConnectionState&quot;,&quot;Average&quot;,&quot;ConnectionId&quot;,&quot;{$CONEXAO_2}&quot;,&quot;AWS/DX&quot;,&quot;{$REGION}&quot;]</key>
+                    <delay>5m</delay>
+                    <applications>
+                        <application>
+                            <name>Status Conexão</name>
+                        </application>
+                    </applications>
+                    <valuemap>
+                        <name>State DirectConnect</name>
+                    </valuemap>
+                    <triggers>
+                        <trigger>
+                            <expression>{min(5m)}=0</expression>
+                            <name>Status da conexão {$CONEXAO_2}-{$CONEXAO_4} está DOWN</name>
+                            <priority>DISASTER</priority>
+                        </trigger>
+                    </triggers>
+                </item>
+            </items>
+            <discovery_rules>
+                <discovery_rule>
+                    <name>Status Interfaces</name>
+                    <type>EXTERNAL</type>
+                    <key>directdiscovery.py[{$REGION}]</key>
+                    <delay>1h</delay>
+                    <item_prototypes>
+                        <item_prototype>
+                            <name>Status Interface {#DEVICENAME}</name>
+                            <type>EXTERNAL</type>
+                            <key>state_bgp.py[&quot;{#DEVICENAME}&quot;,&quot;{$REGION}&quot;]</key>
+                            <delay>5m</delay>
+                            <history>8d</history>
+                            <trends>180d</trends>
+                            <applications>
+                                <application>
+                                    <name>Status Interfaces</name>
+                                </application>
+                            </applications>
+                            <valuemap>
+                                <name>State DirectConnect</name>
+                            </valuemap>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <expression>{min(5m)}=0</expression>
+                                    <name>Status da Interface {#DEVICENAME} no DirectConnect está Down</name>
+                                    <priority>DISASTER</priority>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                    </item_prototypes>
+                </discovery_rule>
+            </discovery_rules>
+            <macros>
+                <macro>
+                    <macro>{$CONEXAO_1}</macro>
+                    <value>CONNECTIONID</value>
+                </macro>
+                <macro>
+                    <macro>{$CONEXAO_2}</macro>
+                    <value>CONNECTIONID</value>
+                </macro>
+                <macro>
+                    <macro>{$CONEXAO_3}</macro>
+                    <value>NOMECONNECT</value>
+                </macro>
+                <macro>
+                    <macro>{$CONEXAO_4}</macro>
+                    <value>NOMECONNECT</value>
+                </macro>
+                <macro>
+                    <macro>{$REGION}</macro>
+                    <value>sa-east-1</value>
+                </macro>
+            </macros>
+        </template>
+    </templates>
+    <value_maps>
+        <value_map>
+            <name>State DirectConnect</name>
+            <mappings>
+                <mapping>
+                    <value>0</value>
+                    <newvalue>Down</newvalue>
+                </mapping>
+                <mapping>
+                    <value>1</value>
+                    <newvalue>Up</newvalue>
+                </mapping>
+            </mappings>
+        </value_map>
+    </value_maps>
+</zabbix_export>

@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zabbix_export>
+    <version>5.2</version>
+    <date>2021-05-03T15:31:05Z</date>
+    <groups>
+        <group>
+            <name>RDS</name>
+        </group>
+    </groups>
+    <templates>
+        <template>
+            <template>RDS discovery status - Zabbix</template>
+            <name>RDS discovery status - Zabbix</name>
+            <groups>
+                <group>
+                    <name>RDS</name>
+                </group>
+            </groups>
+            <applications>
+                <application>
+                    <name>Status RDS</name>
+                </application>
+            </applications>
+            <discovery_rules>
+                <discovery_rule>
+                    <name>RDS Discovery</name>
+                    <type>EXTERNAL</type>
+                    <key>rds.discovery.py[{$REGION}]</key>
+                    <delay>1h</delay>
+                    <lifetime>1h</lifetime>
+                    <item_prototypes>
+                        <item_prototype>
+                            <name>Status RDS {#DEVICENAME}</name>
+                            <type>EXTERNAL</type>
+                            <key>state_rds.py[&quot;{#DEVICENAME}&quot;,&quot;{$REGION}&quot;]</key>
+                            <delay>5m</delay>
+                            <description>1 =&gt; available
+2 =&gt; stopped
+3 =&gt; failed
+4 =&gt; deleting
+5 =&gt; rebooting
+6 =&gt; maintenance
+7 =&gt; modifying
+8 =&gt; restore-error
+9 =&gt; stopping
+10 =&gt; storage-optimization
+11 =&gt; desconhecido</description>
+                            <applications>
+                                <application>
+                                    <name>Status RDS</name>
+                                </application>
+                            </applications>
+                            <valuemap>
+                                <name>State RDS</name>
+                            </valuemap>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <expression>{last()}=2</expression>
+                                    <name>Status do RDS: {#DEVICENAME} =&gt; {ITEM.LASTVALUE1}</name>
+                                    <priority>INFO</priority>
+                                    <description>STATUS RDS
+
+1 =&gt; available
+2 =&gt; stopped
+3 =&gt; failed
+4 =&gt; deleting
+5 =&gt; rebooting
+6 =&gt; maintenance
+7 =&gt; modifying
+8 =&gt; restore-error
+9 =&gt; stopping
+10 =&gt; storage-optimization
+11 =&gt; desconhecido</description>
+                                    <dependencies>
+                                        <dependency>
+                                            <name>Status do RDS: {#DEVICENAME} =&gt; {ITEM.LASTVALUE1}</name>
+                                            <expression>{RDS discovery status - Zabbix:state_rds.py[&quot;{#DEVICENAME}&quot;,&quot;{$REGION}&quot;].last()}=9</expression>
+                                        </dependency>
+                                    </dependencies>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <expression>{last()}=3</expression>
+                                    <name>Status do RDS: {#DEVICENAME} =&gt; {ITEM.LASTVALUE1}</name>
+                                    <priority>DISASTER</priority>
+                                    <description>STATUS RDS
+
+1 =&gt; available
+2 =&gt; stopped
+3 =&gt; failed
+4 =&gt; deleting
+5 =&gt; rebooting
+6 =&gt; maintenance
+7 =&gt; modifying
+8 =&gt; restore-error
+9 =&gt; stopping
+10 =&gt; storage-optimization
+11 =&gt; desconhecido</description>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <expression>{last()}=5</expression>
+                                    <name>Status do RDS: {#DEVICENAME} =&gt; {ITEM.LASTVALUE1}</name>
+                                    <priority>DISASTER</priority>
+                                    <description>STATUS RDS
+
+1 =&gt; available
+2 =&gt; stopped
+3 =&gt; failed
+4 =&gt; deleting
+5 =&gt; rebooting
+6 =&gt; maintenance
+7 =&gt; modifying
+8 =&gt; restore-error
+9 =&gt; stopping
+10 =&gt; storage-optimization
+11 =&gt; desconhecido</description>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <expression>{last()}=6</expression>
+                                    <name>Status do RDS: {#DEVICENAME} =&gt; {ITEM.LASTVALUE1}</name>
+                                    <priority>INFO</priority>
+                                    <description>STATUS RDS
+
+1 =&gt; available
+2 =&gt; stopped
+3 =&gt; failed
+4 =&gt; deleting
+5 =&gt; rebooting
+6 =&gt; maintenance
+7 =&gt; modifying
+8 =&gt; restore-error
+9 =&gt; stopping
+10 =&gt; storage-optimization
+11 =&gt; desconhecido</description>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <expression>{last()}=7</expression>
+                                    <name>Status do RDS: {#DEVICENAME}=&gt; {ITEM.LASTVALUE1}</name>
+                                    <priority>HIGH</priority>
+                                    <description>STATUS RDS
+
+1 =&gt; available
+2 =&gt; stopped
+3 =&gt; failed
+4 =&gt; deleting
+5 =&gt; rebooting
+6 =&gt; maintenance
+7 =&gt; modifying
+8 =&gt; restore-error
+9 =&gt; stopping
+10 =&gt; storage-optimization
+11 =&gt; desconhecido - verificar na console aws</description>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <expression>{last()}=9</expression>
+                                    <name>Status do RDS: {#DEVICENAME} =&gt; {ITEM.LASTVALUE1}</name>
+                                    <priority>INFO</priority>
+                                    <description>STATUS RDS
+
+1 =&gt; available
+2 =&gt; stopped
+3 =&gt; failed
+4 =&gt; deleting
+5 =&gt; rebooting
+6 =&gt; maintenance
+7 =&gt; modifying
+8 =&gt; restore-error
+9 =&gt; stopping
+10 =&gt; storage-optimization
+11 =&gt; desconhecido</description>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <expression>{last()}=10</expression>
+                                    <name>Status do RDS: {#DEVICENAME}=&gt; {ITEM.LASTVALUE1}</name>
+                                    <priority>DISASTER</priority>
+                                    <description>STATUS RDS
+
+1 =&gt; available
+2 =&gt; stopped
+3 =&gt; failed
+4 =&gt; deleting
+5 =&gt; rebooting
+6 =&gt; maintenance
+7 =&gt; modifying
+8 =&gt; restore-error
+9 =&gt; stopping
+10 =&gt; storage-optimization
+11 =&gt; desconhecido</description>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <expression>{last()}=13</expression>
+                                    <name>Status do RDS: {#DEVICENAME} =&gt; {ITEM.LASTVALUE1}</name>
+                                    <priority>HIGH</priority>
+                                    <description>STATUS RDS
+
+1 =&gt; available
+2 =&gt; stopped
+3 =&gt; failed
+4 =&gt; deleting
+5 =&gt; rebooting
+6 =&gt; maintenance
+7 =&gt; modifying
+8 =&gt; restore-error
+9 =&gt; stopping
+10 =&gt; storage-optimization
+11 =&gt; desconhecido</description>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                    </item_prototypes>
+                </discovery_rule>
+            </discovery_rules>
+            <macros>
+                <macro>
+                    <macro>{$REGION}</macro>
+                    <value>us-east-1</value>
+                </macro>
+            </macros>
+        </template>
+    </templates>
+    <value_maps>
+        <value_map>
+            <name>State RDS</name>
+            <mappings>
+                <mapping>
+                    <value>1</value>
+                    <newvalue>available</newvalue>
+                </mapping>
+                <mapping>
+                    <value>2</value>
+                    <newvalue>stopped</newvalue>
+                </mapping>
+                <mapping>
+                    <value>3</value>
+                    <newvalue>failed</newvalue>
+                </mapping>
+                <mapping>
+                    <value>4</value>
+                    <newvalue>deleting</newvalue>
+                </mapping>
+                <mapping>
+                    <value>5</value>
+                    <newvalue>rebooting</newvalue>
+                </mapping>
+                <mapping>
+                    <value>6</value>
+                    <newvalue>maintenance</newvalue>
+                </mapping>
+                <mapping>
+                    <value>7</value>
+                    <newvalue>modifying</newvalue>
+                </mapping>
+                <mapping>
+                    <value>8</value>
+                    <newvalue>restore-error</newvalue>
+                </mapping>
+                <mapping>
+                    <value>9</value>
+                    <newvalue>stopping</newvalue>
+                </mapping>
+                <mapping>
+                    <value>10</value>
+                    <newvalue>storage-optimization</newvalue>
+                </mapping>
+                <mapping>
+                    <value>11</value>
+                    <newvalue>desconhecido</newvalue>
+                </mapping>
+            </mappings>
+        </value_map>
+    </value_maps>
+</zabbix_export>

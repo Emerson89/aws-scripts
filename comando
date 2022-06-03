@@ -1,0 +1,5 @@
+aws ec2 describe-instances --filters Name=vpc-id,Values=vpc-a1716ac5 --query 'Reservations[].Instances[].[PrivateIpAddress,InstanceId.Value[0]]' --output text | sed -e 's/None/\n/g' | sed '$!N;s/\n/ /'
+aws ecs describe-services --cluster name-cluster --services service --query 'services[*].desiredCount' --output text
+aws ec2 describe-vpcs --query "Vpcs[*].[CidrBlockAssociationSet[*].{CIDR:CidrBlock}]" --output table
+aws lambda list-functions --query "Functions[*].[FunctionName,LastModified]" --region sa-east-1 --output table  > lambda.txt
+aws ec2 describe-instances     --filters Name=tag-key,Values=Name     --query 'Reservations[*].Instances[*].{Instance:InstanceId,AZ:Placement.AvailabilityZone,Name:Tags[?Key==`Name`]|[0].Value}'     --output table > instances.txt
